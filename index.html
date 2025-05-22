@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark"> <!-- default is DARK -->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tarun | Flutter Developer Portfolio</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <!-- Font Awesome (icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-gdrT8X9wqFU3uM8DcItP2DkTPmsvXc9uy0Yv+JX1nqMXU1LW7Kf8h6UNKtVuBaxi50R/ad9rLQm2zofsKCAtxg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- =============================
+       GLOBAL STYLES & VARIABLES
+  ============================== -->
+  <style>
+    :root{
+      /* LIGHT THEME */
+      --bg              : #f9f9f9;
+      --card-bg         : rgba(255,255,255,0.65);
+      --text            : #1e1e1e;
+      --accent          : #42a5f5;
+      --accent-2        : #7c4dff;
+      --border-radius   : 1.25rem;
+      --shadow          : 0 10px 30px rgba(0,0,0,0.08);
+      --noise           : url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMScgaGVpZ2h0PScxJyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnPgo8cmVjdCB3aWR0aD0nMScgaGVpZ2h0PScxJyBmaWxsPScjZmZmJyBvcGFjaXR5PScwLjAnPjwvcmVjdD4KPHJlY3Qgd2lkdGg9JzEnIGhlaWdodD0nMScgZmlsbD0nI2ZmZicgb3BhY2l0eT0nMC4wNSc+PC9yZWN0Pgo8L3N2Zz4=');
+    }
+    [data-theme="dark"]{
+      /* DARK THEME */
+      --bg            : #0f0f0f;
+      --card-bg       : rgba(255,255,255,0.06);
+      --text          : #f1f1f1;
+      --accent        : #42a5f5;
+      --accent-2      : #c084ff;
+      --shadow        : 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    /* 020 -------------------------------------------------- */
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{
+      font-family:'Montserrat',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      overflow-x:hidden;
+      position:relative;
+    }
+    body::before{
+      content:"";position:fixed;inset:0;
+      background:var(--noise);opacity:0.08;
+      pointer-events:none;z-index:1;
+    }
+
+    /* UTILITY CLASSES ------------------------------------ */
+    .container{width:min(90%,1200px);margin-inline:auto;}
+    .btn{
+      display:inline-block;padding:0.5rem 1.2rem;border:none;
+      border-radius:2rem;
+      font-size: 0.9rem; 
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      color:#fff;font-weight:600;cursor:pointer;
+      position:relative;overflow:hidden;transition:transform 0.25s;
+    }
+    .btn:focus-visible{outline:3px solid var(--accent-2);}
+    .btn:hover{transform:translateY(-3px);}
+
+    /* NAVBAR ---------------------------------------------- */
+    nav{
+      position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);
+      display:flex;gap:2rem;z-index:100;
+      background:var(--card-bg);backdrop-filter:blur(10px);
+      padding:0.6rem 1.5rem;border-radius:3rem;box-shadow:var(--shadow);
+    }
+    nav a{
+      position:relative;font-weight:600;color:var(--text);text-decoration:none;
+      transition:color 0.3s;
+    }
+    nav a.active,nav a:hover{color:var(--accent-2);}
+
+    /* HERO ------------------------------------------------ */
+    header{
+      min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;
+      position:relative;overflow:hidden;
+    }
+    .floating-shapes{position:absolute;inset:0;pointer-events:none;z-index:0;}
+    .shape{
+      position:absolute;border-radius:20% 80% 70% 30%/50% 20% 80% 50%;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      opacity:0.25;filter:blur(40px);
+      animation:floater 30s infinite ease-in-out;
+      will-change:transform;
+    }
+    .shape:nth-child(1){width:500px;height:500px;top:-250px;left:-250px;animation-duration:40s;}
+    .shape:nth-child(2){width:350px;height:350px;bottom:-150px;right:-150px;animation-duration:35s;}
+    @keyframes floater{0%,100%{transform:translate3d(0,0,0) rotate(0deg);}50%{transform:translate3d(100px,150px,0) rotate(45deg);}}
+
+    .hero-content{z-index:10;}
+    .hero-content h1{
+      font-family:'Orbitron',sans-serif;
+      font-size:clamp(2.5rem,8vw,4.5rem);line-height:1.1;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      -webkit-background-clip:text;color:transparent;
+    }
+    .hero-content p{font-size:1.2rem;margin:1rem 0 2rem;opacity:0.8;}
+
+    /* HERO SOCIAL ICONS ---------------------------------- */
+    .hero-socials{
+      margin-top:2rem;display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap;
+    }
+    .hero-socials a{
+      font-size:1.4rem;color:var(--text);
+      background:var(--card-bg);
+      padding:0.6rem;border-radius:50%;
+      transition:all 0.3s ease;
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    }
+    .hero-socials a:hover{
+      color:#fff;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      transform:translateY(-4px);
+    }
+
+    /* ABOUT ---------------------------------------------- */
+    #about{padding:6rem 0;}
+    #about .grid{display:grid;gap:2rem;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));}
+    .info-card{
+      background:var(--card-bg);backdrop-filter:blur(12px);
+      border-radius:var(--border-radius);box-shadow:var(--shadow);
+      padding:2rem;transition:transform 0.3s;
+    }
+    .info-card:hover{transform:translateY(-6px);}
+
+    /* PROJECTS ------------------------------------------- */
+    #projects{padding:6rem 0;background:linear-gradient(180deg,var(--bg) 0%,var(--accent-2)30%,var(--bg)60%);}
+    .projects-grid{display:grid;gap:2.5rem;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+    .project-card{
+      position:relative;overflow:hidden;border-radius:var(--border-radius);
+      background:var(--card-bg);backdrop-filter:blur(10px);box-shadow:var(--shadow);
+      transition:transform 0.3s;
+    }
+    .project-card img{width:100%;display:block;}
+    .project-card:hover{transform:translateY(-8px);}
+    .project-content{padding:1.5rem;}
+    .project-tags{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem;}
+    .tag{background:var(--accent-2);color:#fff;padding:0.2rem 0.75rem;border-radius:999px;font-size:0.75rem;}
+
+    /* CONTACT ------------------------------------------- */
+    #contact{padding:6rem 0;}
+    .contact-form{max-width:500px;margin:auto;display:flex;flex-direction:column;gap:1rem;}
+    .contact-form input,.contact-form textarea{
+      width:100%;padding:1rem;border-radius:var(--border-radius);border:none;
+      background:var(--card-bg);color:var(--text);font-size:1rem;
+      backdrop-filter:blur(8px);
+    }
+    .contact-form button{align-self:flex-start;}
+
+    /* FOOTER -------------------------------------------- */
+    footer{padding:3rem 0;text-align:center;font-size:0.9rem;color:var(--text);opacity:0.6;}
+  </style>
+</head>
+
+<body>
+<!-- =============================
+     NAVBAR & THEME TOGGLE
+============================= -->
+  <button id="themeToggle" aria-label="Toggle Theme"
+          style="position:fixed;top:1rem;right:1rem;padding:0.5rem;border-radius:50%;border:none;
+                 background:var(--accent);color:#fff;cursor:pointer;z-index:200">☀️</button>
+
+  <nav>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#articles">Articles</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+<!-- =============================
+     HERO SECTION
+============================= -->
+  <header>
+    <div class="floating-shapes">
+      <span class="shape"></span>
+      <span class="shape"></span>
+    </div>
+
+    <div class="hero-content container">
+      <h1 id="typewriter"></h1>
+      <p>Crafting beautiful cross‑platform apps with Flutter 🦄</p>
+      <a href="#projects" class="btn">View My Work</a>
+
+      <!-- SOCIAL ICONS -->
+      <div class="hero-socials">
+        <a href="mailto:tarun1940c@gmail.com" target="_blank" aria-label="Gmail"><img src="https://img.icons8.com/?size=96&id=EgRndDDLh8kS&format=png"  width="24" height="24"></a>
+        <a href="https://linkedin.com/in/choudhary-tarun" target="_blank" aria-label="LinkedIn"><img src="https://img.icons8.com/?size=96&id=13930&format=png" alt="LinkedIn" width="24" height="24"></a>
+        <a href="https://github.com/busttech" target="_blank" aria-label="GitHub"><img src="https://img.icons8.com/?size=120&id=0tREDFkScvsm&format=png" alt="GitHub Icon" width="24" height="24"></a>
+        <a href="https://medium.com/@tarun1940c" target="_blank" aria-label="Medium"><img src="https://img.icons8.com/?size=100&id=XVNvUWCvvlD9&format=png" alt="Medium" width="24" height="24"></a>
+        <a href="/Tarun_Resume.pdf" target="_blank" aria-label="Resume"><img src="https://img.icons8.com/?size=160&id=9eK5RgdglDbA&format=png" alt="LinkedIn" width="24" height="24"></a>
+      </div>
+    </div>
+  </header>
+
+<!-- =============================
+     ABOUT SECTION
+============================= -->
+  <section id="about" class="container">
+    <h2 class="section-title">About Me</h2>
+    <div class="grid">
+      <div class="info-card">
+        <h3>Who I Am</h3>
+        <p>I'm Tarun, an 18‑year‑old Flutter developer passionate about building performant, delightful mobile experiences.</p>
+      </div>
+      <div class="info-card">
+        <h3>What I Do</h3>
+        <p>I turn ideas into production‑ready apps using Flutter, Firebase, and a dash of creativity — shipped on both Android & iOS.</p>
+      </div>
+      <div class="info-card">
+        <h3>Tech Stack</h3>
+        <p>Dart · Flutter · Firebase · React Native · Python · JavaScript · Flask · Machine Learning · Reactjs · Git · MySql · Docker</p>
+      </div>
+    </div>
+  </section>
+
+<!-- =============================
+     PROJECTS SECTION
+============================= -->
+  <section id="projects">
+    <div class="container">
+      <h2 class="section-title" style="text-align:center;color:#fff margin: 2px;">Featured Projects</h2>
+      <div class="projects-grid">
+        <!-- Project 1 -->
+        <article class="project-card">
+          <img src="assests/Kissanconnect.jpg" alt="Kissan Connect screenshot" loading="lazy" width="309.6" height="286"/>
+          <div class="project-content">
+            <h3>Kissan Connect</h3>
+            <p>Connecting farmers, experts, and buyers with a vibrant community & marketplace.</p>
+            <div class="project-tags"><span class="tag">Flutter</span><span class="tag">Firestore</span><span class="tag">Cloudinary</span></div>
+            <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+              <a href="https://your-live-demo-link.com" target="_blank" class="btn">Live Demo</a>
+              <a href="https://drive.google.com/file/d/1s3NFOuJoQhCsW9wBeT94Vcc62FAziB2a/view?usp=drive_link" target="_blank" class="btn">Download APK</a>
+              <a href="https://github.com/your-github-repo" target="_blank" class="btn">GitHub</a>
+            </div>
+        </article>
+        <!-- Project 2 -->
+        <article class="project-card">
+          <img src="assests/personalized-brain-training.webp" alt="NeuroTrainer screenshot" loading="lazy" width="309.6" height="286"/>
+          <div class="project-content">
+            <h3>NeuroTrainer</h3>
+            <p>Cognitive skill‑boosting mini‑games with local progress tracking & streaks.</p>
+            <div class="project-tags"><span class="tag">Flutter</span><span class="tag">Hive</span><span class="tag">GameDev</span></div>
+            <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+              <a href="https://your-live-demo-link.com" target="_blank" class="btn">Live Demo</a>
+              <a href="https://your-apk-link.com" target="_blank" class="btn">Download APK</a>
+              <a href="https://github.com/your-github-repo" target="_blank" class="btn">GitHub</a>
+            </div>
+          </div>
+        </article>
+        <!-- Project 3 -->
+        <article class="project-card">
+          <img src="assests/Studenttecher.avif" alt="NeuroTrainer screenshot" loading="lazy" width="309.6" height="286"/>
+          <div class="project-content">
+            <h3>Student-Teacher Coding Platform</h3>
+            <p>Cognitive skill‑boosting mini‑games with local progress tracking & streaks.</p>
+            <div class="project-tags"><span class="tag">Flutter</span><span class="tag">Hive</span><span class="tag">GameDev</span></div>
+            <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+              <a href="https://your-live-demo-link.com" target="_blank" class="btn">Live Demo</a>
+              <a href="https://github.com/your-github-repo" target="_blank" class="btn">GitHub</a>
+            </div>
+          </div>
+        </article>
+        <!--Project 4-->
+        <article class="project-card">
+          <img src="assests/AI-Hub.png" alt="AI Hub screenshot" loading="lazy" width="309.6" height="286" />
+          <div class="project-content">
+            <h3>AI Hub</h3>
+            <p>A multi‑tool app powered by Gemini – summarizer, flashcards, object identifier, and more.</p>
+            <div class="project-tags"><span class="tag">Flutter</span><span class="tag">Gemini</span><span class="tag">Firebase</span></div>
+            <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+              <a href="https://your-live-demo-link.com" target="_blank" class="btn">Live Demo</a>
+              <a href="https://drive.google.com/file/d/1mablv9GZH49D0mWqKXziAv9ps0062T2_/view?usp=sharing" target="_blank" class="btn">Download APK</a>
+              <a href="https://github.com/your-github-repo" target="_blank" class="btn">GitHub</a>
+            </div>
+          </div>
+        </article>
+        <article class="project-card">
+          <img src="assests/images.jpg" alt="AI Hub screenshot" loading="lazy" width="309.6" height="286" />
+          <div class="project-content">
+            <h3>Shoes-Shopping app</h3>
+            <p>View sports Shoes of different shoe no. and add them in cart </p>
+            <div class="project-tags"><span class="tag">Flutter</span><span class="tag">Gemini</span><span class="tag">Firebase</span></div>
+            <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+              <a href="https://your-live-demo-link.com" target="_blank" class="btn">Live Demo</a>
+              <a href="https://drive.google.com/file/d/1osdWsEFiqe-dGlZ6xbwmkpsRzmzqnkhI/view?usp=sharing" target="_blank" class="btn">Download APK</a>
+              <a href="https://github.com/your-github-repo" target="_blank" class="btn">GitHub</a>
+            </div>
+          </div>
+        </article>
+        <article class="project-card">
+          <img src="assests/download.jpg" alt="AI Hub screenshot" loading="lazy" width="309.6" height="286" />
+          <div class="project-content">
+            <h3>Email-Sender</h3>
+            <p>It can use to send email to multiply people thats comes to your website</p>
+            <div class="project-tags"><span class="tag">Flutter</span><span class="tag">Gemini</span><span class="tag">Firebase</span></div>
+            <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+              <a href="https://your-live-demo-link.com" target="_blank" class="btn">Live Demo</a>
+              <a href="https://your-apk-link.com" target="_blank" class="btn">Download APK</a>
+              <a href="https://github.com/your-github-repo" target="_blank" class="btn">GitHub</a>
+            </div>
+          </div>
+        </article>
+        <article class="project-card">
+          <img src="assests/download.png" alt="AI Hub screenshot" loading="lazy" width="309.6" height="286" />
+          <div class="project-content">
+            <h3>Task Manager</h3>
+            <p>Converts the ruppee in dollar</p>
+            <div class="project-tags"><span class="tag">Flutter</span><span class="tag">Gemini</span><span class="tag">Firebase</span></div>
+            <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+              <a href="https://your-live-demo-link.com" target="_blank" class="btn">Live Demo</a>
+              <a href="https://drive.google.com/file/d/1LrXHXg5B2QhzqJRXM-ulAkm4Zc5jeRc5/view?usp=sharing" target="_blank" class="btn">Download APK</a>
+            </div>
+          </div>
+        </article>
+        <article class="project-card">
+          <img src="assests/images (2).jpg" alt="AI Hub screenshot" loading="lazy" width="309.6" height="286" />
+          <div class="project-content">
+            <h3>Whether app</h3>
+            <p>It tell the current weather </p>
+            <div class="project-tags"><span class="tag">Flutter</span><span class="tag">Gemini</span><span class="tag">Firebase</span></div>
+            <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+              <a href="https://your-live-demo-link.com" target="_blank" class="btn">Live Demo</a>
+              <a href="https://drive.google.com/file/d/1oRcjihmMOjaQmjU5MUvYE9zwD9laLVck/view?usp=sharing" target="_blank" class="btn">Download APK</a>
+              <a href="https://github.com/your-github-repo" target="_blank" class="btn">GitHub</a>
+            </div>
+          </div>
+        </article>
+        <article class="project-card">
+          <img src="assests/images (1).jpg" alt="AI Hub screenshot" loading="lazy" width="309.6" height="286" />
+          <div class="project-content">
+            <h3>Currency Converter</h3>
+            <p>Converts the ruppee in dollar</p>
+            <div class="project-tags"><span class="tag">Flutter</span><span class="tag">Gemini</span><span class="tag">Firebase</span></div>
+            <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+              <a href="https://your-live-demo-link.com" target="_blank" class="btn">Live Demo</a>
+              <a href="https://drive.google.com/file/d/1_xHsZwhY6UWhpnu8dQv-ksKmVN7RF89W/view?usp=sharing" target="_blank" class="btn">Download APK</a>
+              <a href="https://github.com/your-github-repo" target="_blank" class="btn">GitHub</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+<!-- =============================
+     ARTICLES & RESEARCH PAPERS
+============================= -->
+<section id="articles" style="padding:6rem 0;">
+  <div class="container">
+    <h2 style="font-size:2rem;margin-bottom:2rem;">Articles & Research Papers</h2>
+    <div class="projects-grid">
+      <!-- Article Card 1 -->
+      <div class="project-card">
+        <div class="project-content">
+          <h3>Research Paper</h3>
+          <p>Written on performance comparison: Flutter vs Native vs React Native</p>
+          <div class="project-tags">
+            <span class="tag">Flutter</span>
+            <span class="tag">React Native</span>
+            <span class="tag">Research</span>
+          </div>
+          <a class="btn" href="https://medium.com/@tarun1940c/performance-analysis-of-cross-platform-frameworks-a-real-world-comparison-of-flutter-react-93492b07a0cd" target="_blank" style="margin-top:1rem;display:inline-block;">Read More</a>
+        </div>
+      </div>
+
+      <!-- Article Card 2 -->
+      <div class="project-card">
+        <div class="project-content">
+          <h3>Articles</h3>
+          <p>Written Articles on Firebase, Firestore, State Management, Gemini, Comparison: Provider vs Getx</p>
+          <div class="project-tags">
+            <span class="tag">Flutter</span>
+            <span class="tag">UI/UX</span>
+            <span class="tag">Gamification</span>
+          </div>
+          <a class="btn" href="link-to-article-or-blog.html" target="_blank" style="margin-top:1rem;display:inline-block;">Read More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================
+     CONTACT SECTION
+============================= -->
+  <section id="contact" class="container">
+    <h2 class="section-title">Get In Touch</h2>
+    <form class="contact-form" id="contactForm">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit" class="btn">Send Message</button>
+      <p id="formStatus" style="display:none;margin-top:0.5rem"></p>
+    </form>
+  </section>
+
+  <footer>
+    <p>© <span id="year"></span> Tarun Choudhary — Crafted with ☕ & Flutter love.</p>
+  </footer>
+
+<!-- =============================
+     SCRIPTS
+============================= -->
+<script>
+/* ---------- THEME TOGGLE & PERSISTENCE ---------- */
+(function(){
+  const root = document.documentElement;
+  const btn  = document.getElementById('themeToggle');
+  const saved = localStorage.getItem('theme');
+  const theme = saved || 'dark';
+  root.setAttribute('data-theme', theme);
+  btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+
+  btn.addEventListener('click', () => {
+    const isDark = root.getAttribute('data-theme') === 'dark';
+    const next   = isDark ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    btn.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+})();
+
+/* ---------- TYPEWRITER EFFECT ---------- */
+const phrases = ["Hi, I'm Tarun 👋","Flutter Developer","Cross‑platform Wizard"];
+const twEl = document.getElementById('typewriter');
+let i=0,j=0,current=[];
+const typeLoop=()=>{twEl.innerHTML=current.join('');
+  if(i<phrases.length){
+    if(j<=phrases[i].length){current.push(phrases[i][j]);j++;twEl.innerHTML=current.join('');}
+    if(j===phrases[i].length){i++;j=0;current=[];setTimeout(typeLoop,1500);return;}
+  }else{i=0;}
+  setTimeout(typeLoop,80);
+};
+typeLoop();
+
+/* ---------- NAVBAR ACTIVE LINK ---------- */
+const navLinks=document.querySelectorAll('nav a');
+const sections=[...navLinks].map(l=>document.querySelector(l.getAttribute('href')));
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      navLinks.forEach(link=>
+        link.classList.toggle('active',link.getAttribute('href').substring(1)===entry.target.id));
+    }
+  });
+},{rootMargin:'-50% 0px -45% 0px'});
+sections.forEach(sec=>obs.observe(sec));
+
+/* ---------- CONTACT FORM (DUMMY) ---------- */
+const form=document.getElementById('contactForm');
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  const status=document.getElementById('formStatus');
+  status.style.display='block';
+  status.textContent='Sending...';
+  setTimeout(()=>{status.textContent='Thanks! I will reply soon.';form.reset();},1200);
+});
+
+/* ---------- FOOTER YEAR ---------- */
+document.getElementById('year').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
